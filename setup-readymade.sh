@@ -94,18 +94,7 @@ else
 	echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER"
 fi
 
-	#	git clone "${CODE}"
-	# if this is a base project then rename with project name
-	#if [ $BASE_PROJECT -eq "1" ]; then
-	#	mv base-project "${PROJECT}"
-	#	sed -i "" 's|<artifactId>base-project</artifactId>|<artifactId>'${PROJECT}'</artifactId>|g' "${PROJECT}/pom.xml"
-	#fi
 
-	#echo "Build project..."
-	#mvn -f "${PROJECT}/pom.xml" clean install
-
-	#echo "Link target directory to tomcat.."	
-	#target_dir=`find ${PROJECT}/target -type f -name "*.war" | sed -e 's/'${PROJECT}'\/\(.*\).war/\1/'`
 	#rm -rf "${TOMCAT_DIR}/webapps/ROOT"
 	#ln -sf "../../${PROJECT}/${target_dir}" "${TOMCAT_DIR}/webapps/ROOT"
 
@@ -114,12 +103,15 @@ fi
 	rm -f ${SOLR_DIR}${SOLR_EXT}
 
 
+
+echo "Start tomcat.."
+${TOMCAT_DIR}/bin/startup.sh
+
+sleep 10
+
 unlink /etc/nginx/sites-enabled/default
 wget https://raw.githubusercontent.com/DevEire/configs/master/nginx.conf
 mv nginx.conf /etc/nginx/sites-enabled/nginx.conf
 
 systemctl start nginx.service
 
-
-echo "Start tomcat.."
-${TOMCAT_DIR}/bin/startup.sh
