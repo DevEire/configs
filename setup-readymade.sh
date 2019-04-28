@@ -25,6 +25,7 @@ command_exists () {
 	fi
 }
 
+export DEBIAN_FRONTEND=noninteractive
 
 apt update
 
@@ -114,8 +115,8 @@ fi
 
 
 unlink /etc/nginx/sites-enabled/default
-wget https://raw.githubusercontent.com/DevEire/configs/master/readymade.conf
-mv readymade.conf /etc/nginx/sites-enabled/readymade.conf
+wget https://raw.githubusercontent.com/DevEire/configs/master/nginx.conf
+mv nginx.conf /etc/nginx/sites-enabled/nginx.conf
 
 systemctl start nginx.service
 
