@@ -25,11 +25,13 @@ command_exists () {
 	fi
 }
 
+
+apt update
+
 #  Check for required binaries
 command_exists "git"
 command_exists "wget"
 command_exists "mysql-server"
-command_exists "mysql-client-core-5.7"
 command_exists "nginx"
 
 cd /opt
@@ -109,6 +111,13 @@ fi
 	echo "Clean up.."
 	rm -f ${TOMCAT_DIR}${TOMCAT_EXT}
 	rm -f ${SOLR_DIR}${SOLR_EXT}
+
+
+unlink /etc/nginx/sites-enabled/default
+wget https://raw.githubusercontent.com/DevEire/configs/master/readymade.conf
+mv readymade.conf /etc/nginx/sites-enabled/readymade.conf
+
+systemctl start nginx.service
 
 
 echo "Start tomcat.."
