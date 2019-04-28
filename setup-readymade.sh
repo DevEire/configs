@@ -30,10 +30,12 @@ export DEBIAN_FRONTEND=noninteractive
 apt update
 
 #  Check for required binaries
-command_exists "git"
 command_exists "wget"
+sleep 5
 command_exists "mysql-server"
+sleep 5
 command_exists "nginx"
+sleep 5
 
 cd /opt
 
@@ -89,7 +91,7 @@ rm -rf mysql-connector-java-5.1.40
 echo "Create local database"
 
 if [[ "$MYSQL_PASS" -ne "" ]]; then
-	echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql"-u$MYSQL_USER" "-p$MYSQL_PASS"
+	echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER" "-p$MYSQL_PASS"
 else
 	echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER"
 fi
@@ -98,16 +100,16 @@ fi
 	#rm -rf "${TOMCAT_DIR}/webapps/ROOT"
 	#ln -sf "../../${PROJECT}/${target_dir}" "${TOMCAT_DIR}/webapps/ROOT"
 
-	echo "Clean up.."
-	rm -f ${TOMCAT_DIR}${TOMCAT_EXT}
-	rm -f ${SOLR_DIR}${SOLR_EXT}
+echo "Clean up.."
+rm -f ${TOMCAT_DIR}${TOMCAT_EXT}
+rm -f ${SOLR_DIR}${SOLR_EXT}
 
 
 
 echo "Start tomcat.."
 ${TOMCAT_DIR}/bin/startup.sh
 
-sleep 10
+sleep 20
 
 unlink /etc/nginx/sites-enabled/default
 wget https://raw.githubusercontent.com/DevEire/configs/master/nginx.conf
