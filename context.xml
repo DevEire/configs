@@ -28,13 +28,24 @@
     <Environment name="dari/database/project/delegate/solr/serverUrl" override="false" type="java.lang.String" value="http://localhost:8080/solr"/>
     <Environment name="dari/database/project/delegate/solr/readServerUrl" override="false" type="java.lang.String" value="http://localhost:8080/solr"/>
     <Environment name="dari/database/project/delegate/solr/version" override="false" type="java.lang.String" value="3.6.2"/>
-
+    <Environment name="solr/home" type="java.lang.String" value="{{tomcat_dir}}/solr"/>
+    
      <!-- Storage -->
     <Environment name="dari/defaultStorage" type="java.lang.String" value="local"/>
     <Environment name="dari/storage/local/class" type="java.lang.String" value="com.psddev.dari.util.LocalStorageItem"/>
     <Environment name="dari/storage/local/baseUrl" type="java.lang.String" value="http://localhost:8080/storage"/>
     <Environment name="dari/storage/local/rootPath" type="java.lang.String" value="{{tomcat_dir}}/webapps/storage"/>
     
-    <Environment name="solr/home" type="java.lang.String" value="{{tomcat_dir}}/solr"/>
+    
+    <!-- READYMADE SETTINGS -->
+    <Environment name="dari/readymade/showPaletteColors" override="true" type="java.lang.Boolean" value="true" />
+
+    <!-- POC Installer -->
+    <Environment name="dari/initialization/pageTitle" override="true" type="java.lang.String" value="Brightspot Readymade" />
+    <Environment name="dari/initialization/welcomeMessage" override="true" type="java.lang.String" value="Congratulations on downloading Brightspot Readymade. We require some information from you in order to complete setup. Press Start below to begin." />
+    <Environment name="dari/initialization/initializationClassesToSkip" override="true" type="java.lang.String" value="brightspot.initialization.SetupsInitializer,brightspot.initialization.PluginInitializer,brightspot.initialization.SiteContentInitializer" />
+
+    <Environment name="dari/initialization/remoteUrl" override="true" type="java.lang.String" value="http://127.0.0.1:9080" />
+    
 
 </Context>
