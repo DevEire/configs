@@ -45,7 +45,7 @@ wget https://raw.githubusercontent.com/DevEire/configs/master/nginx-waiting.conf
 mv nginx-waiting.conf /etc/nginx/sites-enabled/nginx.conf
 
 wget https://raw.githubusercontent.com/DevEire/configs/master/readmade-building.html
-mv  readmade-building.html /var/www/nginx/html/readmade-building.html
+mv  readmade-building.html /usr/share/nginx/html/readmade-building.html
 
 systemctl start nginx.service
 
