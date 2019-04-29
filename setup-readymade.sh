@@ -3,6 +3,7 @@
 PROJECT="brightspot"
 
 MYSQL_USER="root"
+MYSQL_PASS=""
 MYSQL_DB=${PROJECT}
 
 TOMCAT_PATH="http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.32/bin/"
@@ -114,8 +115,14 @@ rm -f mysql-connector-java-5.1.40.tar.gz
 rm -rf mysql-connector-java-5.1.40
 
 echo "Create local database"
-echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER"
-echo "grant all privileges on *.* to 'root'@'localhost' identified by 'p8ssw0rd' with grant option" | /usr/bin/mysql "-u$MYSQL_USER"
+if [[ "$MYSQL_PASS" -ne "" ]]; then
+	echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER" "-p$MYSQL_PASS"
+	echo "grant all privileges on *.* to 'root'@'localhost' identified by 'p8ssw0rd' with grant option" | /usr/bin/mysql "-u$MYSQL_USER" "-p$MYSQL_PASS"
+else
+	echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER"
+	echo "grant all privileges on *.* to 'root'@'localhost' identified by 'p8ssw0rd' with grant option" | /usr/bin/mysql "-u$MYSQL_USER"
+fi
+
 
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/ROOT
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/docs
