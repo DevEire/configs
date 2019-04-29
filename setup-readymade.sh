@@ -45,8 +45,8 @@ systemctl start nginx.service
 sleep 2
 unlink /etc/nginx/sites-enabled/default
 wget https://raw.githubusercontent.com/DevEire/configs/master/nginx-waiting.conf
-wget https://raw.githubusercontent.com/DevEire/configs/master/readmade-building.html
-mv readmade-building.html /usr/share/nginx/html/readmade-building.html
+wget https://raw.githubusercontent.com/DevEire/configs/master/readymade-building.html
+mv readymade-building.html /usr/share/nginx/html/readymade-building.html
 mv nginx-waiting.conf /etc/nginx/sites-enabled/nginx.conf
 
 systemctl restart nginx.service
