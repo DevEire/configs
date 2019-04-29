@@ -52,7 +52,7 @@ mv nginx-waiting.conf /etc/nginx/sites-enabled/nginx.conf
 systemctl restart nginx.service
 
 # Create project directory
-PROJECT_TOP_LEVEL=`echo $PROJECT | awk '{print $0}'`
+PROJECT_TOP_LEVEL=`echo $PROJECT | awk '{print toupper($0)}'`
 mkdir ${PROJECT_TOP_LEVEL}
 cd ${PROJECT_TOP_LEVEL}
 
