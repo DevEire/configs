@@ -3,7 +3,6 @@
 PROJECT="brightspot"
 
 MYSQL_USER="root"
-MYSQL_PASS=""
 MYSQL_DB=${PROJECT}
 
 TOMCAT_PATH="http://archive.apache.org/dist/tomcat/tomcat-8/v8.0.32/bin/"
@@ -115,20 +114,17 @@ rm -f mysql-connector-java-5.1.40.tar.gz
 rm -rf mysql-connector-java-5.1.40
 
 echo "Create local database"
-if [[ "$MYSQL_PASS" -ne "" ]]; then
-	echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER" "-p$MYSQL_PASS"
-else
-	echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER"
-fi
+echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER"
+echo "grant all privileges on *.* to 'root'@'localhost' identified by 'p8ssw0rd' with grant option" | /usr/bin/mysql "-u$MYSQL_USER"
 
-
-cmd_wgetWithRetries  https://s3-eu-west-1.amazonaws.com/deveire-readymade/express-site-4.1-SNAPSHOT.war express-site-4.1-SNAPSHOT.war
-cp express-site-4.1-SNAPSHOT.war /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/ROOT.war
-
+rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/ROOT
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/docs
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/examples
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/host-manager
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/manager
+
+cmd_wgetWithRetries  https://s3-eu-west-1.amazonaws.com/deveire-readymade/express-site-4.1-SNAPSHOT.war express-site-4.1-SNAPSHOT.war
+cp express-site-4.1-SNAPSHOT.war /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/ROOT.war
 
 echo "Clean up.."
 rm -f ${TOMCAT_DIR}${TOMCAT_EXT}
