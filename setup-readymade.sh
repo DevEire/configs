@@ -37,17 +37,18 @@ sleep 3
 command_exists "nginx"
 sleep 3
 
+cd /opt
+
 #Start nginx first so users get status page while env is getting setup
 unlink /etc/nginx/sites-enabled/default
 wget https://raw.githubusercontent.com/DevEire/configs/master/nginx-waiting.conf
 mv nginx-waiting.conf /etc/nginx/sites-enabled/nginx.conf
 
 wget https://raw.githubusercontent.com/DevEire/configs/master/readmade-building.html
-mv readmade-building.html  /opt/readmade-building.html
+mv  readmade-building.html /var/www/nginx/html/readmade-building.html
 
 systemctl start nginx.service
 
-cd /opt
 
 # Create project directory
 PROJECT_TOP_LEVEL=`echo $PROJECT | awk '{print toupper($0)}'`
