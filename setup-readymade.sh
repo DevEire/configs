@@ -31,11 +31,17 @@ apt update
 
 #  Check for required binaries
 command_exists "wget"
-sleep 5
+sleep 3
 command_exists "mysql-server"
-sleep 5
+sleep 3
 command_exists "nginx"
-sleep 5
+sleep 3
+
+#Start nginx first so users get status page while env is getting setup
+unlink /etc/nginx/sites-enabled/default
+wget https://raw.githubusercontent.com/DevEire/configs/master/nginx-waiting.conf
+mv nginx-waiting.conf /etc/nginx/sites-enabled/nginx.conf
+systemctl start nginx.service
 
 cd /opt
 
@@ -103,14 +109,6 @@ fi
 echo "Clean up.."
 rm -f ${TOMCAT_DIR}${TOMCAT_EXT}
 rm -f ${SOLR_DIR}${SOLR_EXT}
-
-#Start nginx first so users get status page while env is getting setup
-
-unlink /etc/nginx/sites-enabled/default
-wget https://raw.githubusercontent.com/DevEire/configs/master/nginx-waiting.conf
-mv nginx-waiting.conf /etc/nginx/sites-enabled/nginx.conf
-systemctl start nginx.service
-
 
 
 echo "Start tomcat.."
