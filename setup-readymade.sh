@@ -104,21 +104,23 @@ echo "Clean up.."
 rm -f ${TOMCAT_DIR}${TOMCAT_EXT}
 rm -f ${SOLR_DIR}${SOLR_EXT}
 
+#Start nginx first so users get status page while env is getting setup
+
+unlink /etc/nginx/sites-enabled/default
+wget https://raw.githubusercontent.com/DevEire/configs/master/nginx-waiting.conf
+mv nginx-waiting.conf /etc/nginx/sites-enabled/nginx.conf
+systemctl start nginx.service
+
+
 
 echo "Start tomcat.."
 ${TOMCAT_DIR}/bin/startup.sh
 
+
 sleep 5
-
-unlink /etc/nginx/sites-enabled/default
-wget https://raw.githubusercontent.com/DevEire/configs/master/nginx.conf
-mv nginx.conf /etc/nginx/sites-enabled/nginx.conf
-
-systemctl start nginx.service
 
 while sleep 1;
 do
-
         wget -O - http://127.0.0.1:8080/ >& /dev/null
         if( test $? -eq 0 ) then
                 echo "Tomcat Running"
@@ -129,6 +131,10 @@ do
         fi
 done
 sleep 2
+
+
+wget https://raw.githubusercontent.com/DevEire/configs/master/nginx.conf
+mv nginx.conf /etc/nginx/sites-enabled/nginx.conf
 
 systemctl restart nginx.service
 
