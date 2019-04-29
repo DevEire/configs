@@ -105,15 +105,32 @@ rm -f ${TOMCAT_DIR}${TOMCAT_EXT}
 rm -f ${SOLR_DIR}${SOLR_EXT}
 
 
-
 echo "Start tomcat.."
 ${TOMCAT_DIR}/bin/startup.sh
 
-sleep 20
+sleep 5
 
 unlink /etc/nginx/sites-enabled/default
 wget https://raw.githubusercontent.com/DevEire/configs/master/nginx.conf
 mv nginx.conf /etc/nginx/sites-enabled/nginx.conf
 
 systemctl start nginx.service
+
+while sleep 1;
+do
+
+        wget -O - http://127.0.0.1:8080/ >& /dev/null
+        if( test $? -eq 0 ) then
+                echo "Tomcat Running"
+                break;
+        else
+                echo "Tomcat Starting up..."
+                break
+        fi
+done
+sleep 2
+
+systemctl restart nginx.service
+
+
 
