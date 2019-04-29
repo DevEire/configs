@@ -122,8 +122,13 @@ else
 fi
 
 
-	#rm -rf "${TOMCAT_DIR}/webapps/ROOT"
-	#ln -sf "../../${PROJECT}/${target_dir}" "${TOMCAT_DIR}/webapps/ROOT"
+cmd_wgetWithRetries  https://s3-eu-west-1.amazonaws.com/deveire-readymade/express-site-4.1-SNAPSHOT.war express-site-4.1-SNAPSHOT.war
+cp express-site-4.1-SNAPSHOT.war /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/ROOT.war
+
+rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/docs
+rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/examples
+rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/host-manager
+rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/manager
 
 echo "Clean up.."
 rm -f ${TOMCAT_DIR}${TOMCAT_EXT}
@@ -132,8 +137,6 @@ rm -f ${SOLR_DIR}${SOLR_EXT}
 echo "Start tomcat.."
 ${TOMCAT_DIR}/bin/startup.sh
 
-
-sleep 5
 while sleep 1;
 do
         wget -O - http://127.0.0.1:8080/ >& /dev/null
