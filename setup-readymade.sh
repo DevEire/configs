@@ -28,7 +28,7 @@ cmd_exists () {
 cmd_wgetWithRetries () {
 	while sleep 1;
 	do
-        wget -O $2 $1 >& /dev/null
+        wget -O $2 $1 -t 90 >& /dev/null
         if( test $? -eq 0 ) then
                 echo "Got " +$1
                 break;
@@ -108,7 +108,7 @@ mv context.xml "${TOMCAT_DIR}/conf/context.xml"
 
 
 echo "Getting Mysql driver..."
-cmd_wgetWithRetries https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.40.tar.gz mysql-connector-java-5.1.40.tar.gz 
+cmd_wgetWithRetries https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.40.tar.gz  mysql-connector-java-5.1.40.tar.gz 
 tar -xvzf mysql-connector-java-5.1.40.tar.gz
 cp "mysql-connector-java-5.1.40/mysql-connector-java-5.1.40-bin.jar" "${TOMCAT_DIR}/lib"
 rm -f mysql-connector-java-5.1.40.tar.gz
