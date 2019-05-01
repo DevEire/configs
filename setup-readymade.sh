@@ -138,7 +138,7 @@ ${TOMCAT_DIR}/bin/startup.sh
 
 while sleep 1;
 do
-        wget -O - http://127.0.0.1:8080/ >& /dev/null
+        wget -O - -t 5 http://127.0.0.1:8080/ >& /dev/null
         if( test $? -eq 0 ) then
                 echo "Tomcat Running"
                 break;
