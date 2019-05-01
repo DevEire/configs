@@ -46,17 +46,14 @@ apt update
 #  Check for required binaries
 cmd_exists "wget"
 sleep 1
-cmd_exists "mysql-server"
-sleep 1
 cmd_exists "nginx"
 sleep 1
-
-cd /opt
 
 systemctl start nginx.service
 
 #Start nginx first so users get status page while env is getting setup
 sleep 1
+cd /opt
 unlink /etc/nginx/sites-enabled/default
 cmd_wgetWithRetries https://raw.githubusercontent.com/DevEire/configs/master/nginx-waiting.conf nginx-waiting.conf
 cmd_wgetWithRetries https://raw.githubusercontent.com/DevEire/configs/master/readymade-building.html readymade-building.html
@@ -64,6 +61,9 @@ mv  readymade-building.html /usr/share/nginx/html/readymade-building.html
 mv nginx-waiting.conf /etc/nginx/sites-enabled/nginx.conf
 
 systemctl restart nginx.service
+
+# Fetch Mysql
+cmd_exists "mysql-server"
 
 # Create project directory
 PROJECT_TOP_LEVEL=`echo $PROJECT | awk '{print toupper($0)}'`
