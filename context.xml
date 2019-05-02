@@ -28,7 +28,7 @@
     <Environment name="dari/database/project/delegate/solr/serverUrl" override="false" type="java.lang.String" value="http://localhost:8080/solr"/>
     <Environment name="dari/database/project/delegate/solr/readServerUrl" override="false" type="java.lang.String" value="http://localhost:8080/solr"/>
     <Environment name="dari/database/project/delegate/solr/version" override="false" type="java.lang.String" value="3.6.2"/>
-    <Environment name="solr/home" type="java.lang.String" value="{{tomcat_dir}}/solr"/>
+    <Environment name="solr/home" type="java.lang.String" value="/opt/BRIGHTSPOT/apache-tomcat-8.0.32/solr"/>
     
      <!-- Storage -->
     <Environment name="dari/defaultStorage" type="java.lang.String" value="local"/>
