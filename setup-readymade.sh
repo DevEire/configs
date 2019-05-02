@@ -84,6 +84,19 @@ cmd_wgetWithRetries ${JAVA_PATH}${JAVA_DIR}${JAVA_EXT} ${JAVA_DIR}${JAVA_EXT}
 tar -xvzf ${JAVA_DIR}${JAVA_EXT}
 ln -s  ${JAVA_EXPDIR} "java"
 export JAVA_HOME="/opt/BRIGHTSPOT/java/"
+export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/opt/BRIGHTSPOT/${TOMCAT_DIR}/solr
+
+echo "JAVA_HOME = $JAVA_HOME" 
+echo "JAVA_OPTS = $JAVA_OPTS" 
+
+echo "Using bare bones tomcat config.."
+cmd_wgetWithRetries https://raw.githubusercontent.com/DevEire/configs/master/context.xml context.xml
+cmd_wgetWithRetries https://raw.githubusercontent.com/DevEire/configs/master/server.xml server.xml
+
+rm -rf "${TOMCAT_DIR}/conf/server.xml"
+rm -rf "${TOMCAT_DIR}/conf/context.xml"
+mv server.xml "${TOMCAT_DIR}/conf/server.xml"
+mv context.xml "${TOMCAT_DIR}/conf/context.xml"
 
 
 echo "Setting up solr..."
@@ -94,17 +107,10 @@ cp "${SOLR_DIR}/dist/${SOLR_DIR}.war" "${TOMCAT_DIR}/webapps/solr.war"
 echo "Download and install Solr config"
 cmd_wgetWithRetries https://raw.githubusercontent.com/perfectsense/dari/master/etc/solr/config-5.xml config-5.xml
 cmd_wgetWithRetries https://raw.githubusercontent.com/perfectsense/dari/master/etc/solr/schema-12.xml schema-12.xml
-mv config-5.xml "${TOMCAT_DIR}/solr/collection1/conf/solrconfig.xml"
-mv schema-12.xml "${TOMCAT_DIR}/solr/collection1/conf/schema.xml"
+mkdir -p "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/"
+mv config-5.xml "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/solrconfig.xml"
+mv schema-12.xml "/opt/${PROJECT_TOP_LEVEL}${TOMCAT_DIR}/solr/collection1/conf/schema.xml"
 
-echo "Using bare bones tomcat config.."
-cmd_wgetWithRetries https://raw.githubusercontent.com/DevEire/configs/master/context.xml context.xml
-cmd_wgetWithRetries https://raw.githubusercontent.com/DevEire/configs/master/server.xml server.xml
-
-rm -rf "${TOMCAT_DIR}/conf/server.xml"
-rm -rf "${TOMCAT_DIR}/conf/context.xml"
-mv server.xml "${TOMCAT_DIR}/conf/server.xml"
-mv context.xml "${TOMCAT_DIR}/conf/context.xml"
 
 
 echo "Getting Mysql driver..."
