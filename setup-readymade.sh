@@ -84,10 +84,7 @@ cmd_wgetWithRetries ${JAVA_PATH}${JAVA_DIR}${JAVA_EXT} ${JAVA_DIR}${JAVA_EXT}
 tar -xvzf ${JAVA_DIR}${JAVA_EXT}
 ln -s  ${JAVA_EXPDIR} "java"
 export JAVA_HOME="/opt/BRIGHTSPOT/java/"
-export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/opt/BRIGHTSPOT/${TOMCAT_DIR}/solr"
-
-echo "JAVA_HOME = $JAVA_HOME" 
-echo "JAVA_OPTS = $JAVA_OPTS" 
+export JAVA_OPTS="-Dsolr.solr.home=/opt/BRIGHTSPOT/${TOMCAT_DIR}/solr"
 
 echo "Using bare bones tomcat config.."
 cmd_wgetWithRetries https://raw.githubusercontent.com/DevEire/configs/master/context.xml context.xml
