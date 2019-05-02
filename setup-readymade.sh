@@ -106,7 +106,7 @@ cmd_wgetWithRetries https://raw.githubusercontent.com/perfectsense/dari/master/e
 cmd_wgetWithRetries https://raw.githubusercontent.com/perfectsense/dari/master/etc/solr/schema-12.xml schema-12.xml
 mkdir -p "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/"
 mv config-5.xml "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/solrconfig.xml"
-mv schema-12.xml "/opt/${PROJECT_TOP_LEVEL}${TOMCAT_DIR}/solr/collection1/conf/schema.xml"
+mv schema-12.xml "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/schema.xml"
 
 
 
