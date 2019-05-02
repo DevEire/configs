@@ -84,6 +84,7 @@ cmd_wgetWithRetries ${JAVA_PATH}${JAVA_DIR}${JAVA_EXT} ${JAVA_DIR}${JAVA_EXT}
 tar -xvzf ${JAVA_DIR}${JAVA_EXT}
 ln -s  ${JAVA_EXPDIR} "java"
 export JAVA_HOME="/opt/BRIGHTSPOT/java/"
+export SOLR_HOME="/opt/BRIGHTSPOT/${TOMCAT_DIR}/solr"
 export JAVA_OPTS="-Dsolr.solr.home=/opt/BRIGHTSPOT/${TOMCAT_DIR}/solr"
 export CLASSPATH="$CLASSPATH:/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/"
 
@@ -106,8 +107,8 @@ echo "Download and install Solr config"
 cmd_wgetWithRetries https://raw.githubusercontent.com/perfectsense/dari/master/etc/solr/config-5.xml config-5.xml
 cmd_wgetWithRetries https://raw.githubusercontent.com/perfectsense/dari/master/etc/solr/schema-12.xml schema-12.xml
 mkdir -p "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/"
-mv config-5.xml "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/solrconfig.xml"
-mv schema-12.xml "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/schema.xml"
+cp config-5.xml "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/solrconfig.xml"
+cp schema-12.xml "/opt/${PROJECT_TOP_LEVEL}/${TOMCAT_DIR}/solr/collection1/conf/schema.xml"
 
 
 
@@ -119,17 +120,22 @@ rm -f mysql-connector-java-5.1.40.tar.gz
 rm -rf mysql-connector-java-5.1.40
 
 echo "Create local database"
+sleep 5
+echo "CREATE DATABASE IF NOT EXISTS"
 echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}" | /usr/bin/mysql "-u$MYSQL_USER"
 echo "grant all privileges on *.* to 'brightspot'@'localhost' identified by 'p8ssw0rd' with grant option" | /usr/bin/mysql "-u$MYSQL_USER"
+echo "grant privileges"
 echo "flush privileges"  | /usr/bin/mysql "-u$MYSQL_USER"
+echo "flush privileges"
 
-
+echo "prep tomcat"
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/ROOT
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/docs
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/examples
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/host-manager
 rm -rf /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/manager
 
+echo "fetch brightspot war"
 cmd_wgetWithRetries  https://s3-eu-west-1.amazonaws.com/deveire-readymade/express-site-4.1-SNAPSHOT.war express-site-4.1-SNAPSHOT.war
 cp express-site-4.1-SNAPSHOT.war /opt/BRIGHTSPOT/apache-tomcat-8.0.32/webapps/ROOT.war
 
